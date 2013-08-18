@@ -46,9 +46,9 @@ int main(void)
 	
 	RingSet rings(buffer, 15);
 	Chaser chasers[3] = {
-		Chaser(0,0, Red),
-		Chaser(0,0, Green),
-		Chaser(0,0, Blue)
+		Chaser(0, 0, Red),
+		Chaser(2, 0, Green),
+		Chaser(3, 0, Blue)
 	};
 	ChasePattern chasePattern(&rings, chasers, 3);
 	
