@@ -5,6 +5,9 @@
  *  Author: mccubbinaj
  */ 
 
+#define F_CPU 8000000UL  // 8 MHz
+
+#include <util/delay.h>
 
 #include <avr/io.h>
 #include "ws2811_8.h"
@@ -54,6 +57,8 @@ int main(void)
 	
     while(1)
     {
+		_delay_ms(20);
+
 		chasePattern.Update();
 
 		// Update the display
