@@ -31,12 +31,15 @@ public:
 	void Logic();
 	void Render();
 
-	void AddJunction(Junction junction);
+	void SetJunctions(Junction* junction, uint8_t junctionCount);
 
 private:
 	RingSet *_rings;
 	Chaser *_chasers;
 	uint8_t _chaserCount;
+
+	Junction *_junctions;
+	uint8_t _juncCount;
 };
 
 #endif

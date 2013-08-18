@@ -36,3 +36,8 @@ void ChasePattern::Render()
 		_rings->SetElement(chaser->Ring, chaser->Element, chaser->Colour);
 	}
 }
+
+void ChasePattern::SetJunctions(Junction* junctions, uint8_t junctionCount) {
+	_junctions = junctions;
+	_juncCount= junctionCount;
+}

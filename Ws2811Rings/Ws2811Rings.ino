@@ -63,6 +63,20 @@ int main(void)
 	// 1,5 touches 3,13
 	// 1,10 touches 2,2
 
+	Junction junctions[6] =
+	{
+		{ 0, 0,  1, 1 },
+		{ 1, 0,  0, 1 },
+
+		{ 1, 5,  3,12 },
+		{ 3,13,  1, 6 },
+
+		{ 1,10,  2, 1 },
+		{ 2, 2,  1,11 }
+	};
+
+	chasePattern.SetJunctions(junctions, 6);
+
     while(1)
     {
 		_delay_ms(40);
