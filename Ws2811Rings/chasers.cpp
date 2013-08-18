@@ -1,9 +1,9 @@
 #include "chasers.h"
 
-Chaser::Chaser(uint8_t ring, uint8_t element, bool clockwise, rgb colour) {
+Chaser::Chaser(uint8_t ring, uint8_t element, bool clockwise, rgb *colour_ptr) {
 	Ring = ring;
 	Element = element;
-	Colour = colour;
+	Colour = colour_ptr;
 	Clockwise = clockwise;
 }
 
@@ -62,7 +62,7 @@ void ChasePattern::Render()
 	{
 		Chaser* chaser = _chasers + i;
 
-		_rings->SetElement(chaser->Ring, chaser->Element, chaser->Colour);
+		_rings->SetElement(chaser->Ring, chaser->Element, *(chaser->Colour));
 	}
 }
 

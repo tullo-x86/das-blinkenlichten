@@ -46,6 +46,8 @@ rgb Yellow= {br,br, 0};
 rgb Red	  = { 0,br, 0};
 rgb Blue  = { 0, 0,br};
 
+rgb chaser1Colour = {br,0, 0};
+
 int main(void)
 {
 	memset(buffer, 0, sizeof(uint8_t) * 180);
@@ -55,10 +57,10 @@ int main(void)
 	RingSet rings(buffer, 15);
 	const uint8_t chaserCount = 3;
 	Chaser chasers[chaserCount] = {
-		Chaser(0, 0, true, Green),
+		Chaser(0, 0, true, &chaser1Colour),
 		//Chaser(1, 0, false, Yellow),
-		Chaser(2,12, true, Red),
-		Chaser(3, 3, true, Blue)
+		Chaser(2,12, true, &Red),
+		Chaser(3, 3, true, &Blue)
 	};
 
 	ChasePattern chasePattern(&rings, chasers, chaserCount);
@@ -83,12 +85,16 @@ int main(void)
 
 	chasePattern.SetJunctions(junctions, juncCount);
 	
+	bool trigger=false;
 	while(1)
     {
+		chaser1Colour.blue = (trigger = !trigger) ? br : 0;	
+		chaser1Colour.blue = (trigger) ? 0 : br;		 
+
 		chasePattern.Logic();
 		chasePattern.Render();
 
-		_delay_ms(30);
+		_delay_ms(100);
 
 		// Update the display twice, because sending once seems to miss the first pixel
 		// and I dno't have time to figure out why.

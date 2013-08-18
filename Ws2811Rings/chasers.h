@@ -6,11 +6,11 @@
 class Chaser
 {
 public:
-	Chaser(uint8_t ring, uint8_t element, bool clockwise, rgb colour);
+	Chaser(uint8_t ring, uint8_t element, bool clockwise, rgb *colour_ptr);
 
 	uint8_t Ring;
 	uint8_t Element;
-	rgb Colour;
+	rgb *Colour;
 	bool Clockwise;
 };
 
