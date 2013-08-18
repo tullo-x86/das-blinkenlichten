@@ -27,6 +27,7 @@ typedef unsigned char byte;
 extern "C" void __cxa_pure_virtual() {;}
 
 int main(void);
+void interpolateRgb(rgb &c, int iteration, int phaseLength);
 
 #include "G:\DEVELOPMENT\arduino-1.0.1\hardware\arduino\cores\atmega644\wprogram.h"
 #include "M:\DEVELOPMENT\Ws2811Rings\Ws2811Rings\Ws2811Rings.ino"

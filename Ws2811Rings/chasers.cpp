@@ -56,8 +56,6 @@ void ChasePattern::Logic() {
 
 void ChasePattern::Render() 
 {
-	_rings->FadeAll();
-	
 	for (int i = 0; i < _chaserCount; i++)
 	{
 		Chaser* chaser = _chasers + i;

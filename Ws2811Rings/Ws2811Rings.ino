@@ -66,15 +66,19 @@ Junction junctions[juncCount] =
 };
 
 RingSet rings(buffer, 15);
-const uint8_t chaserCount = 3;
+const uint8_t chaserCount = 1;
 Chaser chasers[chaserCount] = {
-	Chaser(0, 0, true, &chaser1Colour),
-	//Chaser(1, 0, false, Yellow),
+	Chaser(0, 0, true, &chaser1Colour),/*
+	Chaser(1, 0, false, &Green),
 	Chaser(2,12, true, &Red),
-	Chaser(3, 3, true, &Blue)
+	Chaser(3, 3, true, &Blue)*/
 };
 
 ChasePattern chasePattern(&rings, chasers, chaserCount);
+
+
+const int phaseLength = 5;
+const int period = phaseLength * 6;
 
 int main(void)
 {
@@ -83,20 +87,67 @@ int main(void)
 
 	chasePattern.SetJunctions(junctions, juncCount);
 	
-	bool trigger=false;
+	int iter = 0;
 	while(1)
-    {
-		chaser1Colour.blue = (trigger = !trigger) ? br : 0;	
-		chaser1Colour.blue = (trigger) ? 0 : br;		 
+    {		
+		iter = ++iter % period;
+
+		interpolateRgb(chaser1Colour, iter, phaseLength);
 
 		chasePattern.Logic();
+		rings.FadeAll();
 		chasePattern.Render();
 
-		_delay_ms(100);
+		_delay_ms(30);
 
 		// Update the display twice, because sending once seems to miss the first pixel
 		// and I dno't have time to figure out why.
 		send( buffer, 60, 3);
 		send( buffer, 60, 3);
     }
+}
+
+void interpolateRgb(rgb &c, int iteration, int phaseLength) {
+	// Determine which phase we are in
+	int phase = iteration / phaseLength;
+	int step = iteration % phaseLength;
+		
+	switch(phase)
+	{
+		case 0: // Red on, green increasing, blue off
+		c.red   = 1 << phaseLength;
+		c.green = 1 << step;
+		c.blue  = 0;
+		break;
+		
+		case 1: // Red decreasing, green on, blue off
+		c.red   = (1 << phaseLength) >> (step);
+		c.green = 1 << phaseLength;
+		c.blue  = 0;
+		break;
+		
+		case 2: // Red off, green on, blue increasing
+		c.red   = 0;
+		c.green = 1 << phaseLength;
+		c.blue  = 1 << step;
+		break;
+		
+		case 3: // Red off, green decreasing, blue on
+		c.red   = 0;
+		c.green = (1 << phaseLength) >> (step);
+		c.blue  = 1 << phaseLength;
+		break;
+		
+		case 4: // Red increasing, green off, blue on
+		c.red   = 1 << step;
+		c.green = 0;
+		c.blue  = 1 << phaseLength;
+		break;
+		
+		case 5: // Red on, green off, blue decreasing
+		c.red   = 1 << phaseLength;
+		c.green = 0;
+		c.blue  = (1 << phaseLength) >> (step);
+		break;
+	}
 }
