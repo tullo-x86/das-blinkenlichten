@@ -53,10 +53,10 @@ int main(void)
 	DDRB = _BV(3);
 	
 	RingSet rings(buffer, 15);
-	const uint8_t chaserCount = 4;
+	const uint8_t chaserCount = 3;
 	Chaser chasers[chaserCount] = {
 		Chaser(0, 0, true, Green),
-		Chaser(1, 0, false, Yellow),
+		//Chaser(1, 0, false, Yellow),
 		Chaser(2,12, true, Red),
 		Chaser(3, 3, true, Blue)
 	};
