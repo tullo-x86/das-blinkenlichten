@@ -13,11 +13,6 @@
 #include "ws2811_8.h"
 #include "chasers.h"
 
-rgb Green = {20, 0, 0};
-rgb Yellow= {15,15, 0};
-rgb Red	  = { 0,15, 0};
-rgb Blue  = { 0, 0,15};
-
 rgb buffer[] =
  {
 	{0,0,40}, {0,02,0}, {02,0,0},
@@ -45,6 +40,12 @@ rgb buffer[] =
 	{0,0,02}, {0,02,0}, {02,02,02},
  };
 
+const uint8_t br = 22;
+rgb Green = {br, 0, 0};
+rgb Yellow= {br,br, 0};
+rgb Red	  = { 0,br, 0};
+rgb Blue  = { 0, 0,br};
+
 int main(void)
 {
 	memset(buffer, 0, sizeof(uint8_t) * 180);
@@ -56,8 +57,8 @@ int main(void)
 	Chaser chasers[chaserCount] = {
 		Chaser(0, 0, true, Green),
 		Chaser(1, 0, false, Yellow),
-		Chaser(2, 9, true, Red),
-		Chaser(3, 4, true, Blue)
+		Chaser(2,12, true, Red),
+		Chaser(3, 3, true, Blue)
 	};
 
 	ChasePattern chasePattern(&rings, chasers, chaserCount);
