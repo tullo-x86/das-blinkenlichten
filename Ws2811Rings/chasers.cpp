@@ -13,14 +13,25 @@ ChasePattern::ChasePattern(RingSet* rings, Chaser* chasers, uint8_t chaserCount)
 	_chaserCount = chaserCount;
 }
 
-void ChasePattern::Update() {
-	_rings->FadeAll();
-
+void ChasePattern::Logic() {
 	for (int i = 0; i < _chaserCount; i++)
 	{
 		Chaser* chaser = _chasers + i;
 		
-		chaser->Element = (chaser->Element + 1) % 15;
+		int d = chaser->Clockwise ? 1 : -1;
+		chaser->Element = (chaser->Element + d) % 15;
+
+		_rings->SetElement(chaser->Ring, chaser->Element, chaser->Colour);
+	}
+}
+
+void ChasePattern::Render() 
+{
+	_rings->FadeAll();
+	
+	for (int i = 0; i < _chaserCount; i++)
+	{
+		Chaser* chaser = _chasers + i;
 
 		_rings->SetElement(chaser->Ring, chaser->Element, chaser->Colour);
 	}

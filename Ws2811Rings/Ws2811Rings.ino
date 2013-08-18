@@ -37,9 +37,10 @@ rgb buffer[] =
 	{0,0,10}, {0,10,0}, {10,0,0},
  };
 
-rgb Green = {40, 0, 0};
-rgb Red	  = {0, 40, 0};
-rgb Blue  = {0, 0, 40};
+rgb Green = {20, 0, 0};
+rgb Yellow= {10,10, 0};
+rgb Red	  = { 0,10, 0};
+rgb Blue  = { 0, 0,05};
 	
 int main(void)
 {
@@ -48,18 +49,26 @@ int main(void)
 	DDRB = _BV(3);
 	
 	RingSet rings(buffer, 15);
-	Chaser chasers[3] = {
-		Chaser(0, 0, Red),
-		Chaser(2, 0, Green),
+	Chaser chasers[4] = {
+		Chaser(0, 0, Green),
+		Chaser(1, 0, Yellow),
+		Chaser(2, 0, Red),
 		Chaser(3, 0, Blue)
 	};
-	ChasePattern chasePattern(&rings, chasers, 3);
-	
+	chasers[1].Clockwise = true;
+	ChasePattern chasePattern(&rings, chasers, 4);
+
+	// Junctions:
+	// 0,0 touches 1,0
+	// 1,5 touches 3,13
+	// 1,10 touches 2,2
+
     while(1)
     {
-		_delay_ms(20);
+		_delay_ms(40);
 
-		chasePattern.Update();
+		chasePattern.Logic();
+		chasePattern.Render();
 
 		// Update the display
 		send( buffer, 60, 3);

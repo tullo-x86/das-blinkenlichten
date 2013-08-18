@@ -28,7 +28,8 @@ class ChasePattern
 public:
 	ChasePattern(RingSet* rings, Chaser* chasers, uint8_t chaserCount);
 	
-	void Update();
+	void Logic();
+	void Render();
 
 	void AddJunction(Junction junction);
 
