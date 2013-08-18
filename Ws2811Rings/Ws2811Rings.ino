@@ -48,40 +48,38 @@ rgb Blue  = { 0, 0,br};
 
 rgb chaser1Colour = {br,0, 0};
 
+// Junctions:
+// 0,0 touches 1,0
+// 1,5 touches 3,13
+// 1,10 touches 2,2
+const int juncCount = 6;
+Junction junctions[juncCount] =
+{		
+	Junction( 0, 0,  1, 1 ),
+	Junction( 1, 0,  0,14 ),
+
+	Junction( 1, 5,  3,12 ),
+	Junction( 3,13,  1, 6 ),
+
+	Junction( 1,10,  2, 1 ),
+	Junction( 2, 2,  1,11 )
+};
+
+RingSet rings(buffer, 15);
+const uint8_t chaserCount = 3;
+Chaser chasers[chaserCount] = {
+	Chaser(0, 0, true, &chaser1Colour),
+	//Chaser(1, 0, false, Yellow),
+	Chaser(2,12, true, &Red),
+	Chaser(3, 3, true, &Blue)
+};
+
+ChasePattern chasePattern(&rings, chasers, chaserCount);
+
 int main(void)
 {
-	memset(buffer, 0, sizeof(uint8_t) * 180);
-
 	DDRB = _BV(3);
-	
-	RingSet rings(buffer, 15);
-	const uint8_t chaserCount = 3;
-	Chaser chasers[chaserCount] = {
-		Chaser(0, 0, true, &chaser1Colour),
-		//Chaser(1, 0, false, Yellow),
-		Chaser(2,12, true, &Red),
-		Chaser(3, 3, true, &Blue)
-	};
-
-	ChasePattern chasePattern(&rings, chasers, chaserCount);
-
-	// Junctions:
-	// 0,0 touches 1,0
-	// 1,5 touches 3,13
-	// 1,10 touches 2,2
-
-	const int juncCount = 6;
-	Junction junctions[juncCount] =
-	{		
-		Junction( 0, 0,  1, 1 ),
-		Junction( 1, 0,  0,14 ),
-
-		Junction( 1, 5,  3,12 ),
-		Junction( 3,13,  1, 6 ),
-
-		Junction( 1,10,  2, 1 ),
-		Junction( 2, 2,  1,11 )
-	};
+	memset(buffer, 0, sizeof(uint8_t) * 180);
 
 	chasePattern.SetJunctions(junctions, juncCount);
 	
