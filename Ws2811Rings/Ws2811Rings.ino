@@ -47,6 +47,7 @@ rgb Red	  = { 0,br, 0};
 rgb Blue  = { 0, 0,br};
 
 rgb chaser1Colour = {br,0, 0};
+rgb chaser2Colour = {0,br, 0};
 
 // Junctions:
 // 0,0 touches 1,0
@@ -66,18 +67,18 @@ Junction junctions[juncCount] =
 };
 
 RingSet rings(buffer, 15);
-const uint8_t chaserCount = 1;
+const uint8_t chaserCount = 2;
 Chaser chasers[chaserCount] = {
-	Chaser(0, 0, true, &chaser1Colour),/*
-	Chaser(1, 0, false, &Green),
-	Chaser(2,12, true, &Red),
+	Chaser(0, 0, true, &chaser1Colour),
+	Chaser(1, 0, false, &chaser2Colour),
+	/*Chaser(2,12, true, &Red),
 	Chaser(3, 3, true, &Blue)*/
 };
 
 ChasePattern chasePattern(&rings, chasers, chaserCount);
 
 
-const int phaseLength = 5;
+const int phaseLength = 4;
 const int period = phaseLength * 6;
 
 int main(void)
@@ -88,11 +89,14 @@ int main(void)
 	chasePattern.SetJunctions(junctions, juncCount);
 	
 	int iter = 0;
+	int iter2 = 30;
 	while(1)
     {		
 		iter = ++iter % period;
+		iter2 = ++iter2 % period;
 
 		interpolateRgb(chaser1Colour, iter, phaseLength);
+		interpolateRgb(chaser2Colour, iter2, phaseLength);
 
 		chasePattern.Logic();
 		rings.FadeAll();

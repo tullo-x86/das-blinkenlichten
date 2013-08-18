@@ -66,7 +66,7 @@ void ChasePattern::Render()
 
 void ChasePattern::SetJunctions(Junction* junctions, uint8_t junctionCount) {
 	_junctions = junctions;
-	_juncCount= junctionCount;
+	_juncCount = junctionCount;
 }
 
 Junction::Junction(uint8_t fromR, uint8_t fromE, uint8_t toR, uint8_t toE) {
