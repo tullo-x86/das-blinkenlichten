@@ -13,78 +13,85 @@
 #include "ws2811_8.h"
 #include "chasers.h"
 
-rgb buffer[] =
- {
-	{40,40,40}, {0,40,0}, {40,0,0},
-	{0,0,10}, {0,10,0}, {10,0,0},
-	{0,0,10}, {0,10,0}, {10,0,0},
-	{0,0,10}, {0,10,0}, {10,0,0},
-	{0,0,10}, {0,10,0}, {10,0,0},
-	{0,0,10}, {0,10,0}, {10,0,0},
-	{0,0,10}, {0,10,0}, {10,0,0},
-	{0,0,10}, {0,10,0}, {10,0,0},
-	{0,0,10}, {0,10,0}, {10,0,0},
-	{0,0,10}, {0,10,0}, {10,0,0},
-	{0,0,10}, {0,10,0}, {10,0,0},
-	{0,0,10}, {0,10,0}, {10,0,0},
-	{0,0,10}, {0,10,0}, {10,0,0},
-	{0,0,10}, {0,10,0}, {10,0,0},
-	{0,0,10}, {0,10,0}, {10,0,0},
-	{0,0,10}, {0,10,0}, {10,0,0},
-	{0,0,10}, {0,10,0}, {10,0,0},
-	{0,0,10}, {0,10,0}, {10,0,0},
-	{0,0,10}, {0,10,0}, {10,0,0},
-	{0,0,10}, {0,10,0}, {10,0,0},
- };
-
 rgb Green = {20, 0, 0};
 rgb Yellow= {10,10, 0};
 rgb Red	  = { 0,10, 0};
 rgb Blue  = { 0, 0,05};
-	
+
+rgb buffer[] =
+ {
+	{0,0,40}, {0,02,0}, {02,0,0},
+	{0,0,02}, {0,02,0}, {02,0,0},
+	{0,0,02}, {0,02,0}, {02,0,0},
+	{0,0,02}, {0,02,0}, {02,0,0},
+	{0,0,02}, {0,02,0}, {02,0,0},
+
+	{40,40,0}, {0,02,0}, {02,0,0},
+	{0,0,02}, {0,02,0}, {02,0,0},
+	{0,0,02}, {0,02,0}, {02,0,0},
+	{0,0,02}, {0,02,0}, {02,0,0},
+	{0,0,02}, {0,02,0}, {02,0,0},
+
+	{0,0,02}, {0,40,0}, {02,0,0},
+	{0,0,02}, {0,02,0}, {02,0,0},
+	{0,0,02}, {0,02,0}, {02,0,0},
+	{0,0,02}, {0,02,0}, {02,0,0},
+	{0,0,02}, {0,02,0}, {02,0,0},
+
+	{0,0,02}, {0,02,0}, {40,0,0},
+	{0,0,02}, {0,02,0}, {02,0,0},
+	{0,0,02}, {0,02,0}, {02,0,0},
+	{0,0,02}, {0,02,0}, {02,0,0},
+	{0,0,02}, {0,02,0}, {02,02,02},
+ };
+
 int main(void)
 {
-	memset(buffer, 0, sizeof(uint8_t) * 60 * 3);
+	memset(buffer, 0, sizeof(uint8_t) * 180);
 
 	DDRB = _BV(3);
 	
 	RingSet rings(buffer, 15);
-	Chaser chasers[4] = {
-		Chaser(0, 0, Green),
+	const uint8_t chaserCount = 1;
+	Chaser chasers[chaserCount] = {
+		Chaser(1, 2, false, Green),/*
 		Chaser(1, 0, Yellow),
 		Chaser(2, 0, Red),
-		Chaser(3, 0, Blue)
+		Chaser(3, 0, Blue)*/
 	};
-	chasers[1].Clockwise = true;
-	ChasePattern chasePattern(&rings, chasers, 4);
+
+	ChasePattern chasePattern(&rings, chasers, chaserCount);
 
 	// Junctions:
 	// 0,0 touches 1,0
 	// 1,5 touches 3,13
 	// 1,10 touches 2,2
 
-	Junction junctions[6] =
-	{
-		{ 0, 0,  1, 1 },
-		{ 1, 0,  0, 1 },
+	const int juncCount = 6;
+	Junction junctions[juncCount] =
+	{		
+		Junction( 0, 0,  1, 1 ),
+		Junction( 1, 0,  0,14 ),
 
-		{ 1, 5,  3,12 },
-		{ 3,13,  1, 6 },
+		Junction( 1, 5,  3,12 ),
+		Junction( 3,13,  1, 6 ),
 
-		{ 1,10,  2, 1 },
-		{ 2, 2,  1,11 }
+		Junction( 1,10,  2, 1 ),
+		Junction( 2, 2,  1,11 )
 	};
 
-	chasePattern.SetJunctions(junctions, 6);
-
-    while(1)
+	chasePattern.SetJunctions(junctions, juncCount);
+	
+	while(1)
     {
-		_delay_ms(40);
-
 		chasePattern.Logic();
 		chasePattern.Render();
 
-		// Update the display
+		_delay_ms(50);
+
+		// Update the display twice, because sending once seems to miss the first pixel
+		// and I dno't have time to figure out why.
+		send( buffer, 60, 3);
 		send( buffer, 60, 3);
     }
 }

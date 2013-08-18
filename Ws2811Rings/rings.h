@@ -10,10 +10,12 @@ public:
 
 	void SetElement(uint8_t ring, uint8_t element, rgb colour);
 	void FadeAll();
+	void ClearAll();
+
+	uint8_t RingSize;
 
 private:
 	rgb *_rgbBuffer;
-	uint8_t _ringSize;
 };
 
 #endif

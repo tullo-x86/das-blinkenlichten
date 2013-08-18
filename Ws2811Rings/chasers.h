@@ -6,7 +6,7 @@
 class Chaser
 {
 public:
-	Chaser(uint8_t ring, uint8_t element, rgb colour);
+	Chaser(uint8_t ring, uint8_t element, bool clockwise, rgb colour);
 
 	uint8_t Ring;
 	uint8_t Element;
@@ -16,6 +16,8 @@ public:
 
 struct Junction
 {
+	Junction(uint8_t fromR, uint8_t fromE, uint8_t toR, uint8_t toE);
+
 	uint8_t FromRing;
 	uint8_t FromElem;
 
