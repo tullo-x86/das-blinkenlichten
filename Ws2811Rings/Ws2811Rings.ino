@@ -14,9 +14,9 @@
 #include "chasers.h"
 
 rgb Green = {20, 0, 0};
-rgb Yellow= {10,10, 0};
-rgb Red	  = { 0,10, 0};
-rgb Blue  = { 0, 0,05};
+rgb Yellow= {15,15, 0};
+rgb Red	  = { 0,15, 0};
+rgb Blue  = { 0, 0,15};
 
 rgb buffer[] =
  {
@@ -52,12 +52,12 @@ int main(void)
 	DDRB = _BV(3);
 	
 	RingSet rings(buffer, 15);
-	const uint8_t chaserCount = 1;
+	const uint8_t chaserCount = 4;
 	Chaser chasers[chaserCount] = {
-		Chaser(1, 2, false, Green),/*
-		Chaser(1, 0, Yellow),
-		Chaser(2, 0, Red),
-		Chaser(3, 0, Blue)*/
+		Chaser(0, 0, true, Green),
+		Chaser(1, 0, false, Yellow),
+		Chaser(2, 9, true, Red),
+		Chaser(3, 4, true, Blue)
 	};
 
 	ChasePattern chasePattern(&rings, chasers, chaserCount);
@@ -87,7 +87,7 @@ int main(void)
 		chasePattern.Logic();
 		chasePattern.Render();
 
-		_delay_ms(50);
+		_delay_ms(30);
 
 		// Update the display twice, because sending once seems to miss the first pixel
 		// and I dno't have time to figure out why.
