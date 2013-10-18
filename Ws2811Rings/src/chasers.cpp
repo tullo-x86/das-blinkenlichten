@@ -1,4 +1,4 @@
-#include "chasers.h"
+#include "../include/chasers.h"
 
 Chaser::Chaser(uint8_t ring, uint8_t element, bool clockwise, rgb *colour_ptr) {
 	Ring = ring;
@@ -12,6 +12,7 @@ ChasePattern::ChasePattern(RingSet* rings, Chaser* chasers, uint8_t chaserCount)
 	_chasers = chasers;
 	_chaserCount = chaserCount;
 	_juncCount = 0;
+	_junctions = 0;
 }
 
 void ChasePattern::Logic() {

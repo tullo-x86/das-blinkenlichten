@@ -10,8 +10,9 @@
 #include <util/delay.h>
 
 #include <avr/io.h>
-#include "ws2811_8.h"
-#include "chasers.h"
+#include <string.h>
+#include "../include/ws2811_8.h"
+#include "../include/chasers.h"
 
 rgb buffer[] =
  {
@@ -81,6 +82,7 @@ ChasePattern chasePattern(&rings, chasers, chaserCount);
 const int phaseLength = 4;
 const int period = phaseLength * 6;
 
+void interpolateRgb(rgb &c, int iteration, int phaseLength);
 int main(void)
 {
 	DDRB = _BV(3);

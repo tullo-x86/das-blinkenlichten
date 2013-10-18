@@ -1,4 +1,4 @@
-#include "rings.h"
+#include "../include/rings.h"
 
 RingSet::RingSet(rgb *buffer, uint8_t ringSize) {
 	_rgbBuffer = buffer;
