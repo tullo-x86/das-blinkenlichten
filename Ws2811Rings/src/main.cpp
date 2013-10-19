@@ -97,7 +97,7 @@ const int period = phaseLength * 6;
 void interpolateRgb(rgb &c, int iteration, int phaseLength);
 int main(void)
 {
-	DDRB = _BV(3);
+	DDRB = _BV(0);
 	memset(buffer, 0, sizeof(uint8_t) * 180);
 
 	chasePattern.SetJunctions(junctions, juncCount);
