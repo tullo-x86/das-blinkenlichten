@@ -1,7 +1,7 @@
 // 
 // 
 // 
-
+#if F_CPU==8000000UL
 #include "../include/ws2811_8.h"
 
 
@@ -141,3 +141,4 @@ void send( const rgb *values, uint16_t array_size, uint8_t bit)
     );
 
 }
+#endif

@@ -5,13 +5,25 @@
  *  Author: mccubbinaj
  */ 
 
-#define F_CPU 8000000UL  // 8 MHz
 
-#include <util/delay.h>
+#if F_CPU==16000000UL
+#include "../include/ws2811.h"
+DEFINE_WS2811_FN(send_pin, PORTB, 0)
+typedef RGB_t rgb;
+void send(const RGB_t *rgb, uint16_t len, uint8_t bit)
+{
+	send_pin(rgb, len);
+}
+#elif F_CPU==8000000UL
+#include "../include/ws2811_8.h"
+#endif
+
+#define WS2811_PORT PORTA
 
 #include <avr/io.h>
+#include <util/delay.h>
+
 #include <string.h>
-#include "../include/ws2811_8.h"
 #include "../include/chasers.h"
 
 rgb buffer[] =

@@ -1,7 +1,12 @@
 #ifndef RINGS_H
 #define RINGS_H
 
-#include "ws2811_8.h"
+#if F_CPU==16000000UL
+#include "../include/ws2811.h"
+typedef RGB_t rgb;
+#elif F_CPU==8000000UL
+#include "../include/ws2811_8.h"
+#endif
 
 class RingSet
 {
